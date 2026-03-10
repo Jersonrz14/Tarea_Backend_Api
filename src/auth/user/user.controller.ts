@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 
 import { UserService } from './user.service';
 
-@Controller('users')
+@Controller('/users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
@@ -12,7 +12,7 @@ export class UserController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.userService.findById(+id);
+    findbyId(@Param('id') id: string) {
+        return this.userService.findbyId(+id);
     }
 }

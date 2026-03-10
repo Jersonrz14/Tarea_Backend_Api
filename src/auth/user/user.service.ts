@@ -13,7 +13,7 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-        private readonly roleService: RoleService,
+        private readonly rolesService: RoleService,
     ) {}
 
     findAll() {
@@ -33,23 +33,23 @@ export class UserService {
         return null;
     }
 
-    async create(createUseDto: CreateUserDto) {
-        // Buscamos el role segun el nombre
-        const role = await this.roleService.findByName(createUseDto.roleName);
+    async create(createUserDto: CreateUserDto) {
+        //Buscamos el role segun el nombre
+        const role = await this.rolesService.findbyName(createUserDto.roleName);
         if (!role) {
             throw new Error('Role not found');
         }
 
-        // Transfomar del DTO al User
+        //Transformar el DTO al User
         const newUser = this.userRepository.create({
-            ...createUseDto,
+            ...createUserDto,
             role,
         });
 
         return this.userRepository.save(newUser);
     }
 
-    findById(id: number) {
+    findbyId(id: number) {
         return this.userRepository.findOneBy({ id });
     }
 }
