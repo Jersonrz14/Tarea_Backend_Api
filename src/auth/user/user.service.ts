@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { User } from '../entities/user.entity';
 import { RoleService } from '../role/role.service';
@@ -22,8 +23,11 @@ export class UserService {
             throw new Error('Role not found');
         }
 
+        const passwordHash = await bcrypt.hash(createUserDto.passwordHash, 10);
+
         const newUser = this.userRepository.create({
             ...createUserDto,
+            passwordHash,
             role,
         });
         return await this.userRepository.save(newUser);
